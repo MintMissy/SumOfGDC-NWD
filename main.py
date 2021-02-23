@@ -94,6 +94,7 @@ def pullOutFraction(fraction):
         return fraction
 
 
+# Sum of 2 fractions
 frictionA = input('Type first fraction; For example 2/3\n')
 frictionB = input('Type second fraction; For example 4/7\n')
 
