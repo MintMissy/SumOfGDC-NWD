@@ -9,7 +9,7 @@ def getNumerator(fraction):
     :return numerator of fraction
     """
 
-    numerator, trash = fraction.split('/')
+    numerator = fraction.split('/')[0]
     return int(numerator)
 
 
@@ -21,54 +21,52 @@ def getDenominator(fraction):
     :return denominator of fraction
     """
 
-    trash, denominator = fraction.split('/')
+    denominator = fraction.split('/')[1]
     return int(denominator)
 
 
-def getGSD(fraction1, fraction2):
+def getGSD(number1, number2):
     """
     Method to get GSD/NWD from 2 numbers
 
-    :param fraction1: for example 2/3
-    :param fraction2: for example 2/5
+    :param number1: for example 2/3
+    :param number2: for example 2/5
     :return: GSD of these numbers
     """
+
+    while number1 != 0:
+        c = number1
+        number1 = number2 % number1
+        number2 = c
+
+    return number2
+
+
+def sumFrictions(fraction1, fraction2):
+    """
+    Method to sum frictions
+
+    :param fraction1: for example 2/3
+    :param fraction2: for example 2/5
+    :return: sum of frictions
+    """
+
+    numerator1 = getNumerator(fraction1)
+    numerator2 = getNumerator(fraction2)
 
     denominator1 = getDenominator(fraction1)
     denominator2 = getDenominator(fraction2)
 
-    while denominator1 != 0:
-        c = denominator1
-        denominator1 = denominator2 % denominator1
-        denominator2 = c
-
-    return denominator2
-
-
-def sumFrictions(friction1, friction2):
-    """
-    Method to sum frictions
-
-    :param friction1: for example 2/3
-    :param friction2: for example 2/5
-    :return: sum of frictions
-    """
-
-    numerator1 = getNumerator(friction1)
-    numerator2 = getNumerator(friction2)
-
-    denominator1 = getDenominator(friction1)
-    denominator2 = getDenominator(friction2)
-
-    GDS = getGSD(friction1, friction2)
+    GDS = getGSD(getDenominator(fraction1), getDenominator(fraction2))
 
     sumDenominator = denominator1 * denominator2 / GDS
     sumNumerator = sumDenominator * numerator1 / denominator1 + \
                    sumDenominator * numerator2 / denominator2
 
-    # Reduce fractions (wyciaganie calosci)
-    sumDenominator /= GDS
-    sumNumerator /= GDS
+    # Reduce fractions (skracanie ulamkow)
+    reduceGSD = getGSD(sumNumerator, sumDenominator)
+    sumDenominator /= reduceGSD
+    sumNumerator /= reduceGSD
 
     return str(int(sumNumerator)) + "/" + str(int(sumDenominator))
 
